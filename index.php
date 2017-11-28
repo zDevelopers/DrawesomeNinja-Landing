@@ -108,9 +108,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><?=$t['page_title'] ?></title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 
-        <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Raleway" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bulma.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
@@ -194,12 +193,12 @@
                                 </p>
                             </form>
                         </aside>
-                        <aside class="social-links">
+                        <aside class="external-links">
                             <a href="https://twitter.com/<?=$t['twitter_account'] ?>" class="icon is-medium" title="<?=$t['twitter'] ?>">
-                                <span class="fa fa-twitter fa-2x"></span>
+                                <span class="fa fa-birdsite fa-2x"></span>
                             </a>
                             <a href="https://github.com/zDevelopers/DrawesomeNinja" class="icon is-medium" title="<?=$t['github'] ?>">
-                                <span class="fa fa-github fa-2x"></span>
+                                <span class="fa fa-codesite-ghb fa-2x"></span>
                             </a>
                         </aside>
                     </div>
