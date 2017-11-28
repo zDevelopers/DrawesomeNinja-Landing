@@ -101,3 +101,21 @@ section.hero aside.external-links a {
 section.hero aside.external-links a:not(:first-child) {
     margin-left: 1.4em;
 }
+
+
+section.hero .hero-body .container {
+    animation-name: fadein;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

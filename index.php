@@ -69,7 +69,7 @@
             'page_title' => 'Drawesome Ninja!',
             'title' => 'Préparez vos crayons.',
             'description' => 'Drawesome Ninja réinvente le Pictionary en ligne.<br />Jouez, dessinez, devinez — en toute simplicité.',
-            'invite_email' => 'Vous voulez être parmis les premiers à en profiter&nbsp;? Donnez-nous votre adresse et on vous préviendra&nbsp;!',
+            'invite_email' => 'Vous voulez être parmis les premiers à en profiter&nbsp;? Donnez-nous votre adresse&nbsp;!',
             'placeholder_email' => 'Entrez votre e-mail',
             'button_email' => 'Prévenez-moi',
             'button_email_success' => 'Merci !',
@@ -179,14 +179,14 @@
                                         data-text-succ="<?=$t['button_email_success'] ?>"
                                         data-text-errr="<?=$t['button_email_error'] ?>"
                                         data-text-errm="<?=$t['button_email_error_email'] ?>">
-                                        <span class="icon is-small<?=$class_button_icon_orig ?>" id="button-mail-icon-original">
+                                        <span class="icon is-small<?=$class_button_icon_orig ?>" id="button-mail-icon-original" aria-hidden="true">
                                             <span class="fa fa-paint-brush"></span>
                                         </span>
-                                        <span class="icon is-small<?=$class_button_icon_errr ?>" id="button-mail-icon-error">
+                                        <span class="icon is-small<?=$class_button_icon_errr ?>" id="button-mail-icon-error" aria-hidden="true">
                                             <span class="fa fa-times"></span>
                                         </span>
                                         <span id="button-mail-text"><?=$text_button ?></span>
-                                        <span class="icon is-small<?=$class_button_icon_succ ?>" id="button-mail-icon-success">
+                                        <span class="icon is-small<?=$class_button_icon_succ ?>" id="button-mail-icon-success" aria-hidden="true">
                                             <span class="fa fa-check"></span>
                                         </span>
                                     </button>
@@ -205,6 +205,7 @@
                 </div>
             </div>
         </section>
+
         <script async type="text/javascript" src="js/js.js"></script> <!-- js js js js js -->
 
         <!-- Piwik -->
