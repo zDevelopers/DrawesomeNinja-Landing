@@ -83,6 +83,7 @@
             'page_title' => 'Drawesome Ninja!',
             'title' => 'Préparez vos crayons.',
             'description' => 'Drawesome Ninja réinvente le Pictionary en ligne.<br />Jouez, dessinez, devinez — en toute simplicité.',
+            'description_opengraph' => 'Futur service interactif &amp; dynamique de Pictionary en ligne. Préparez vos crayons.',
             'invite_email' => 'Vous voulez être parmis les premiers à en profiter&nbsp;? Donnez-nous votre adresse&nbsp;!',
             'placeholder_email' => 'Entrez votre e-mail',
             'button_email' => 'Prévenez-moi',
@@ -98,6 +99,7 @@
             'page_title' => 'Drawesome Ninja!',
             'title' => 'Hold your pencils.',
             'description' => 'Drawesome Ninja reinvents online Pictionary.<br />Play, draw, guess — all in a simple, clear game interface.',
+            'description_opengraph' => 'Futur interactive service to play online Pictionary. Hold your pencils.',
             'invite_email' => 'Want to be the first to enjoy it? Give us your e-mail address and we\'ll let you know when it\'s ready!',
             'placeholder_email' => 'Enter your e-mail',
             'button_email' => 'Let me know',
@@ -116,6 +118,12 @@
 
     $lang = prefered_language($available_languages, $_SERVER["HTTP_ACCEPT_LANGUAGE"], $default_language);
     $t = $translations[$lang];
+
+    $url = sprintf(
+        "%s://%s",
+        isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+        $_SERVER['SERVER_NAME']
+    );
 ?>
 
 <html>
@@ -128,6 +136,30 @@
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bulma.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+        <link rel="icon" type="image/png" sizes="128x128" href="img/favicon.png" />
+
+        <meta name="description" content="<?=$t['description_opengraph'] ?>" />
+
+        <!-- Schema.org markup -->
+        <meta itemprop="name" content="<?=$t['page_title'] ?>">
+        <meta itemprop="description" content="<?=$t['description_opengraph'] ?>">
+        <meta itemprop="image" content="<?=$url; ?>/img/opengraph.jpg">
+
+        <!-- Twitter Card data -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="<?=$t['page_title'] ?>">
+        <meta name="twitter:description" content="<?=$t['description_opengraph'] ?>">
+        <meta name="twitter:creator" content="@<?=$t['twitter_account'] ?>">
+        <meta name="twitter:image:src" content="<?=$url; ?>/img/opengraph.jpg">
+
+        <!-- Open Graph data -->
+        <meta property="og:title" content="<?=$t['page_title'] ?>" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="<?=$url; ?>" />
+        <meta property="og:image" content="<?=$url; ?>/img/opengraph.jpg" />
+        <meta property="og:description" content="<?=$t['description_opengraph'] ?>" />
+        <meta property="og:site_name" content="<?=$t['page_title'] ?>" />
 
         <?php if (isset($_GET['ok'])): ?>
             <meta http-equiv="refresh" content="5; url=/">
