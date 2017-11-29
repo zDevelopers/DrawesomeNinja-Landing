@@ -8,7 +8,8 @@
                 id   INTEGER     PRIMARY KEY,
                 mail TEXT(2000)  NOT NULL,
                 lang TEXT(10)    NOT NULL,
-                date INTEGER(16) NOT NULL
+                date INTEGER(16) NOT NULL,
+                ip   TEXT(80)    NOT NULL
             );');
             $pdo->exec('CREATE UNIQUE INDEX mails_idx ON mails(mail);');
         }
@@ -20,6 +21,9 @@
 
     if (isset($_POST['email']))
     {
+        // Anti-brute-force
+        sleep(1);
+
         $email = $_POST['email'];
         $email_lang = isset($_POST['lang']) ? $_POST['lang'] : 'en';
 
@@ -47,12 +51,22 @@
         try
         {
             $pdo = new PDO('sqlite:mails.db');
+            $ip = $_SERVER['REMOTE_ADDR'];
 
-            $q = $pdo->prepare('INSERT OR IGNORE INTO mails (mail, lang, date) VALUES (?, ?, strftime("%s","now"))');
-            $q->execute([$email, $email_lang]);
+            $q = $pdo->prepare('SELECT COUNT(*) AS recent_actions FROM mails WHERE date > strftime("%s", "now", "-15 seconds") AND ip = ?');
+            $q->execute([$ip]);
+            $r = $q->fetch();
 
-            $q = $pdo->prepare('UPDATE mails SET lang = ? WHERE mail = ?');
-            $q->execute([$email_lang, $email]);
+            if ($r && $r['recent_actions'] > 2)
+            {
+                return_value('ko-rate-limit', $ajax);
+            }
+
+            $q = $pdo->prepare('INSERT OR IGNORE INTO mails (mail, lang, date, ip) VALUES (?, ?, strftime("%s","now"), ?)');
+            $q->execute([$email, $email_lang, $ip]);
+
+            $q = $pdo->prepare('UPDATE mails SET lang = ?, ip = ? WHERE mail = ?');
+            $q->execute([$email_lang, $ip, $email]);
 
             return_value('ok', $ajax);
         }
@@ -75,6 +89,7 @@
             'button_email_success' => 'Merci !',
             'button_email_error' => 'Erreur :(',
             'button_email_error_email' => 'Entrez un courriel :)',
+            'button_email_error_rate_limit' => 'Doucement ! Merci de patienter ~15 secondes',
             'twitter' => 'Compte Twitter',
             'twitter_account' => 'Drawesome_Ninja',
             'github' => 'Code source sur GitHub (on est open-source !)'
@@ -89,6 +104,7 @@
             'button_email_success' => 'Thanks!',
             'button_email_error' => 'Error :(',
             'button_email_error_email' => 'Please enter an email :)',
+            'button_email_error_rate_limit' => 'Hey, slow down! Please wait ~15 seconds.',
             'twitter' => 'Twitter account',
             'twitter_account' => 'Drawesome_Ninja',
             'github' => 'Source code on GitHub (we\'re open source!)'
@@ -146,7 +162,7 @@
                                             $class_button_icon_errr = ' is-hidden';
                                             $text_button = $t['button_email_success'];
                                         }
-                                        else if (isset($_GET['ko']) || isset($_GET['ko-email']))
+                                        else if (isset($_GET['ko']) || isset($_GET['ko-email']) || isset($_GET['ko-rate-limit']))
                                         {
                                             $class_button = 'is-danger';
                                             $class_button_icon_orig = ' is-hidden';
@@ -156,6 +172,10 @@
                                             if (isset($_GET['ko']))
                                             {
                                                 $text_button = $t['button_email_error'];
+                                            }
+                                            else if (isset($_GET['ko-rate-limit']))
+                                            {
+                                                $text_button = $t['button_email_error_rate_limit'];
                                             }
                                             else
                                             {
@@ -178,7 +198,8 @@
                                         data-text-orig="<?=$t['button_email'] ?>"
                                         data-text-succ="<?=$t['button_email_success'] ?>"
                                         data-text-errr="<?=$t['button_email_error'] ?>"
-                                        data-text-errm="<?=$t['button_email_error_email'] ?>">
+                                        data-text-errm="<?=$t['button_email_error_email'] ?>"
+                                        data-text-errl="<?=$t['button_email_error_rate_limit'] ?>">
                                         <span class="icon is-small<?=$class_button_icon_orig ?>" id="button-mail-icon-original" aria-hidden="true">
                                             <span class="fa fa-paint-brush"></span>
                                         </span>

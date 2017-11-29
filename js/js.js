@@ -60,7 +60,8 @@ when_dom_ready(function()
             return;
         }
 
-        self.classList.add('is-loading');
+        self.classList.remove('is-success', 'is-danger');
+        self.classList.add('is-info', 'is-loading');
 
         icon_orig.classList.remove('is-hidden');
         icon_error.classList.add('is-hidden');
@@ -107,18 +108,20 @@ when_dom_ready(function()
 
                     email.value = '';
                 }
-                else if (r == 'ko' || r == 'ko-email')
+                else if (r.startsWith('ko'))
                 {
                     icon_error.classList.remove('is-hidden');
                     self.classList.add('is-danger');
 
                     if (r == 'ko')
                         button_text.innerHTML = self.dataset.textErrr;
+                    else if (r == 'ko-rate-limit')
+                        button_text.innerHTML = self.dataset.textErrl;
                     else
                         button_text.innerHTML = self.dataset.textErrm;
                 }
 
-                restaure_after(self, r == 'ko' || r == 'ko-email' ? 6000 : 4000);
+                restaure_after(self, r == 'ko' || r == 'ko-email' ? 6000 : r == 'ko-rate-limit' ? 12000 : 4000);
             },
             function(error, is_connection_error)
             {
