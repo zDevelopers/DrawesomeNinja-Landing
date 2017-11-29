@@ -137,7 +137,7 @@
         <link rel="stylesheet" type="text/css" href="css/bulma.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
-        <link rel="icon" type="image/png" sizes="128x128" href="img/favicon.png" />
+        <link rel="icon" type="image/png" sizes="128x128" href="<?=$url; ?>/img/favicon.png" />
 
         <meta name="description" content="<?=$t['description_opengraph'] ?>" />
 
